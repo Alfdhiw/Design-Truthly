@@ -1,27 +1,27 @@
 import React from "react";
 import { useState, useRef } from 'react'
-import { Dialog, DialogPanel } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { ArrowPathIcon, CloudArrowUpIcon, FingerPrintIcon, LockClosedIcon } from '@heroicons/react/24/outline'
-import { FaLinkedin, FaInstagram } from "react-icons/fa";
-import { Link } from "react-scroll";
 import './App.css'
 
 function App() {
 
-  // 📌 Buat ref untuk form
+  // 📌 Buat ref untuk form dan desc
   const formRef = useRef(null);
+  const descRef = useRef(null);
 
   // 🔽 Fungsi untuk scroll ke form
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const scrollToDesc = () => {
+    descRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }
+
   const navigation = [
-    { name: 'Home', href: 'home' },
-    { name: 'Features', href: 'about' },
-    { name: 'Teams', href: 'teams' },
-    { name: 'Verify News', href: 'news' },
+    { name: 'Home', href: '#home' },
+    { name: 'Features', href: '#about' },
+    { name: 'Teams', href: '#teams' },
+    { name: 'Verify News', href: '#news' },
   ]
 
   const features = [
@@ -29,25 +29,25 @@ function App() {
       name: 'Push to verify',
       description:
         'Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.',
-      icon: CloudArrowUpIcon,
+      icon: "fa-solid fa-cloud-arrow-up",
     },
     {
       name: 'Check Hoax / Fact',
       description:
         'Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.',
-      icon: LockClosedIcon,
+      icon: "fa-solid fa-fingerprint",
     },
     {
       name: 'Simple Feature',
       description:
         'Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.',
-      icon: ArrowPathIcon,
+      icon: "fa-solid fa-arrows-to-circle",
     },
     {
       name: 'Advanced security',
       description:
         'Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.',
-      icon: FingerPrintIcon,
+      icon: "fa-solid fa-lock",
     },
   ]
 
@@ -56,29 +56,21 @@ function App() {
       name: "Lindsay Walton",
       role: "Front-end Developer",
       image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-      linkedin: "https://www.linkedin.com/in/example",
-      instagram: "https://www.instagram.com/example",
     },
     {
       name: "Courtney Henry",
       role: "Designer",
       image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-      linkedin: "https://www.linkedin.com/in/example",
-      instagram: "https://www.instagram.com/example",
     },
     {
       name: "Tom Cook",
       role: "Director of Product",
       image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-      linkedin: "https://www.linkedin.com/in/example",
-      instagram: "https://www.instagram.com/example",
     },
     {
       name: "Leonard Krasner",
       role: "Senior Designer",
       image: "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-      linkedin: "https://www.linkedin.com/in/example",
-      instagram: "https://www.instagram.com/example",
     },
   ]
 
@@ -105,7 +97,9 @@ function App() {
   const [inputValue, setInputValue] = useState('');
   const [result, setResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
   return (
     <div className="bg-white">
@@ -117,60 +111,177 @@ function App() {
           </div>
           <div className="hidden lg:flex lg:gap-x-15 px-60">
             {navigation.map((item, index) => (
-              <Link
+              <a
                 key={index}
-                to={item.href}
-                smooth={true}
+                href={item.href}
                 duration={500}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const target = document.querySelector(item.href);
+                  if (target) {
+                    window.scrollTo({
+                      top: target.offsetTop,
+                      behavior: "smooth",
+                    });
+                  }
+                }}
                 className="cursor-pointer text-gray-900 hover:text-blue-600 font-semibold text-lg"
               >
                 {item.name}
-              </Link>
+              </a>
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a href="#" className="text-md font-semibold text-gray-900 hover:text-blue-600">
-              Log in →
-            </a>
-          </div>
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(true)}
-            className="lg:hidden -m-2.5 p-2.5 text-gray-700"
-          >
-            <Bars3Icon className="h-6 w-6" />
-          </button>
-        </nav>
-      </header>
-
-      <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
-        <DialogPanel className="fixed inset-0 bg-white z-50 w-full p-6 sm:max-w-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold text-blue-600">Truthly</span>
-            <button onClick={() => setMobileMenuOpen(false)} className="text-gray-700">
-              <XMarkIcon className="h-6 w-6" />
-            </button>
-          </div>
-          <div className="mt-6">
-            {navigation.map((item, index) => (
-              <Link
-                key={index}
-                to={item.href}
-                smooth={true}
-                duration={500}
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-center text-gray-900 text-xl font-semibold hover:text-blue-600"
-              >
-                {item.name}
-              </Link>
-            ))}
-            <a href="#" className="block py-2 text-lg text-gray-900 hover:bg-gray-100">
+            <a href="#" className="text-md font-semibold text-gray-900 hover:text-blue-600" onClick={() => setIsLoginOpen(true)}>
               Log in
             </a>
-          </div>
-        </DialogPanel>
-      </Dialog>
+            {/* Overlay + Modal Login */}
+            {isLoginOpen && (
+              <div className="fixed inset-0 bg-transparent backdrop-blur-md flex items-center justify-center z-50">
+                <div className="bg-white p-6 rounded-lg shadow-lg w-96 transform transition-opacity duration-300 ease-out animate-fadeIn scale-100">
+                  <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="w-full p-2 border rounded-md mb-3"
+                  />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    className="w-full p-2 border rounded-md mb-3"
+                  />
+                  <button className="w-full bg-blue-600 text-white p-2 rounded-4xl hover:bg-blue-700 transition">
+                    Sign In
+                  </button>
 
+                  {/* Link ke Register */}
+                  <p className="mt-4 text-center text-sm">
+                    Don't have an account?{" "}
+                    <span
+                      onClick={() => {
+                        setIsLoginOpen(false);
+                        setIsRegisterOpen(true);
+                      }}
+                      className="text-blue-600 cursor-pointer hover:underline"
+                    >
+                      Get access
+                    </span>
+                  </p>
+
+                  {/* Tombol Close */}
+                  <button
+                    onClick={() => setIsLoginOpen(false)}
+                    className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
+                  >
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Overlay + Modal Register */}
+            {isRegisterOpen && (
+              <div className="fixed inset-0 bg-transparent bg-opacity-40 backdrop-blur-md flex items-center justify-center z-50">
+                <div className="bg-white p-6 rounded-lg shadow-lg w-96 transform transition-opacity duration-300 ease-out animate-fadeIn scale-100">
+                  <h2 className="text-2xl font-bold text-center mb-4">Register</h2>
+                  <input
+                    type="text"
+                    placeholder="Full Name"
+                    className="w-full p-2 border rounded-md mb-3"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="w-full p-2 border rounded-md mb-3"
+                  />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    className="w-full p-2 border rounded-md mb-3"
+                  />
+                  <button className="w-full bg-blue-600 text-white p-2 rounded-4xl hover:bg-blue-700 transition">
+                    Sign Up
+                  </button>
+
+                  {/* Link ke Login */}
+                  <p className="mt-4 text-center text-sm">
+                    Already have an account?{" "}
+                    <span
+                      onClick={() => {
+                        setIsRegisterOpen(false);
+                        setIsLoginOpen(true);
+                      }}
+                      className="text-blue-600 cursor-pointer hover:underline"
+                    >
+                      Log in
+                    </span>
+                  </p>
+
+                  {/* Tombol Close */}
+                  <button
+                    onClick={() => setIsRegisterOpen(false)}
+                    className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
+                  >
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="lg:hidden">
+            {/* Button to Open Menu */}
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              className="text-gray-700 p-2 rounded-md hover:bg-gray-100 transition"
+            >
+              ☰
+            </button>
+
+            {/* Overlay & Menu */}
+            {mobileMenuOpen && (
+              <div className="fixed inset-0 z-50 bg-gray-100 bg-opacity-50 flex justify-center items-center">
+                <div className="bg-white p-6 rounded-lg shadow-lg w-96 transform transition-opacity duration-300 ease-out animate-fadeIn scale-100">
+                  {/* Header */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl font-bold text-blue-600">Truthly</span>
+                    <button onClick={() => setMobileMenuOpen(false)} className="text-gray-700">
+                    <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </div>
+
+                  {/* Menu Links */}
+                  <div className="mt-6">
+                    {navigation.map((item, index) => (
+                      <a
+                        key={index}
+                        href={item.href}
+                        onClick={(e) => {
+                          e.setMobileMenuOpen(false);
+                          const target = document.querySelector(item.href);
+                          if (target) {
+                            window.scrollTo({
+                              top: target.offsetTop,
+                              behavior: "smooth",
+                            });
+                          }
+                        }}
+                        className="block text-center text-gray-900 text-xl font-semibold hover:text-blue-600 py-2"
+                      >
+                        {item.name}
+                      </a>
+                    ))}
+
+                    {/* Log in Button */}
+                    <a href="#" className="block py-2 text-lg text-gray-900 font-semibold hover:bg-gray-100 text-center rounded-md">
+                      Log in
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </nav>
+      </header>
       {/* Hero Section */}
 
       <div className="relative isolate px-6 pt-15 lg:px-8">
@@ -198,7 +309,7 @@ function App() {
               <button href="#" className="cursor-pointer font-semibold shadow-xl bg-blue-600 text-white px-5 py-3 rounded-4xl hover:bg-blue-500 transition-all duration-300 ease-in-out" onClick={scrollToForm}>
                 📰 Explore News
               </button>
-              <button href="#" className="cursor-pointer font-semibold shadow-xl px-5 py-3 rounded-4xl bg-gray-100 hover:bg-gray-400 transition-all duration-300 ease-in-out hover:text-white">
+              <button href="#" className="cursor-pointer font-semibold shadow-xl px-5 py-3 rounded-4xl bg-gray-100 hover:bg-gray-400 transition-all duration-300 ease-in-out hover:text-white" onClick={scrollToDesc}>
                 🚀 Learn More
               </button>
             </div>
@@ -207,7 +318,7 @@ function App() {
 
         {/* Description Section */}
 
-        <div id="about" className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div id="about" ref={descRef} className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-base/7 font-semibold text-blue-600">Verify Faster</h2>
             <p className="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl lg:text-balance">
@@ -224,7 +335,7 @@ function App() {
                 <div key={feature.name} className="relative pl-16">
                   <dt className="text-base/7 font-semibold text-gray-900">
                     <div className="absolute top-0 left-0 flex size-10 items-center justify-center rounded-lg bg-blue-600">
-                      <feature.icon aria-hidden="true" className="size-6 text-white" />
+                      <i className={`${feature.icon} text-white text-xl`}></i>
                     </div>
                     {feature.name}
                   </dt>
@@ -262,7 +373,6 @@ function App() {
                     rel="noopener noreferrer"
                     className="text-gray-500 hover:text-blue-600 transition duration-300 text-xl"
                   >
-                    <FaLinkedin />
                   </a>
                   <a
                     href={member.instagram}
@@ -270,7 +380,6 @@ function App() {
                     rel="noopener noreferrer"
                     className="text-gray-500 hover:text-pink-500 transition duration-300 text-xl"
                   >
-                    <FaInstagram />
                   </a>
                 </div>
               </div>
@@ -286,7 +395,7 @@ function App() {
           </p>
           <div className="max-w-2xl mx-auto mt-6">
             <textarea
-              className="w-full h-32 p-4 border border-neon-white bg-transparent rounded-lg text-gray-600 focus:ring-2 focus:ring-neon-blue placeholder-gray-600"
+              className="w-full h-32 p-4 border-gray-500 bg-transparent rounded-lg text-gray-600 focus:ring-2 focus:ring-neon-blue placeholder-gray-600"
               placeholder="Masukkan berita di sini..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
@@ -333,15 +442,24 @@ function App() {
           </div>
           <nav className="mt-6 md:mt-0 flex space-x-6 text-sm font-normal text-gray-600">
             {navigation.map((item, index) => (
-              <Link
+              <a
                 key={index}
-                to={item.href}
-                smooth={true}
+                href={item.href}
                 duration={500}
-                className="cursor-pointer hover:text-blue-600"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const target = document.querySelector(item.href);
+                  if (target) {
+                    window.scrollTo({
+                      top: target.offsetTop,
+                      behavior: "smooth",
+                    });
+                  }
+                }}
+                className="cursor-pointer text-gray-900 hover:text-blue-600 font-semibold text-sm"
               >
                 {item.name}
-              </Link>
+              </a>
             ))}
           </nav>
           <div className="mt-6 md:mt-0 text-center">
