@@ -195,10 +195,10 @@ function App() {
               Use AI to verify news with high precision. An innovative tool powered by an AI-powered LLM Canister.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <button href="#" className="cursor-pointer shadow-xl bg-blue-600 text-white px-5 py-3 rounded-4xl hover:bg-blue-500 transition-all duration-300 ease-in-out" onClick={scrollToForm}>
+              <button href="#" className="cursor-pointer font-semibold shadow-xl bg-blue-600 text-white px-5 py-3 rounded-4xl hover:bg-blue-500 transition-all duration-300 ease-in-out" onClick={scrollToForm}>
                 📰 Explore News
               </button>
-              <button href="#" className="cursor-pointer shadow-xl px-5 py-3 rounded-4xl bg-gray-100 hover:bg-gray-400 transition-all duration-300 ease-in-out">
+              <button href="#" className="cursor-pointer font-semibold shadow-xl px-5 py-3 rounded-4xl bg-gray-100 hover:bg-gray-400 transition-all duration-300 ease-in-out hover:text-white">
                 🚀 Learn More
               </button>
             </div>
